@@ -2,6 +2,8 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Schedule {
@@ -15,6 +17,10 @@ public class Schedule {
 
     @ManyToOne
     private Attraction attraction;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "schedule")
+    private List<Ticket> tickets;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
