@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Visitor {
@@ -10,8 +12,14 @@ public class Visitor {
     private Long id;
 
     private String name;
-    private String email;
     private String phone;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "visitor")
+    private List<Ticket> tickets;
+
+    @Column(unique = true, nullable = false)
+    private String email;
 
     // Getters and Setters
     public Long getId() { return id; }
