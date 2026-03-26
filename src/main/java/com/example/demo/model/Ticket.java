@@ -1,8 +1,13 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"visitor_id", "schedule_id"})
+})
 public class Ticket {
 
     @Id
