@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Attraction {
@@ -9,9 +11,15 @@ public class Attraction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
     private String description;
     private int capacity;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "attraction")
+    private List<Schedule> schedules;
+
+    @Column(nullable = false)
+    private String name;
 
     // Getters and Setters
     public Long getId() { return id; }
