@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Ticket;
 import com.example.demo.repository.TicketRepository;
+import com.example.demo.service.TicketService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,14 +12,16 @@ import java.util.List;
 public class TicketController {
 
     private final TicketRepository repo;
+    private final TicketService service;
 
-    public TicketController(TicketRepository repo) {
+    public TicketController(TicketRepository repo, TicketService service) {
         this.repo = repo;
+        this.service = service;
     }
 
-    @PostMapping
-    public Ticket create(@RequestBody Ticket ticket) {
-        return repo.save(ticket);
+    @PostMapping("/buy")
+    public Ticket buy(@RequestBody Ticket ticket) {
+        return service.buyTicket(ticket);
     }
 
     @GetMapping
@@ -29,15 +32,6 @@ public class TicketController {
     @GetMapping("/{id}")
     public Ticket getById(@PathVariable Long id) {
         return repo.findById(id).orElse(null);
-    }
-
-    @PutMapping("/{id}")
-    public Ticket update(@PathVariable Long id, @RequestBody Ticket updated) {
-        return repo.findById(id).map(ticket -> {
-            ticket.setVisitor(updated.getVisitor());
-            ticket.setSchedule(updated.getSchedule());
-            return repo.save(ticket);
-        }).orElse(null);
     }
 
     @DeleteMapping("/{id}")
